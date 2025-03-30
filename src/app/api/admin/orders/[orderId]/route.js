@@ -1,5 +1,5 @@
-import { authMiddleware } from "@/middleware/authMiddleware";
-import { adminMiddleware } from "@/middleware/adminMiddleware";
+import { authMiddleware } from "@../../../../middlewares/authMiddleware";
+import { adminMiddleware } from "../../../../middlewares/authMiddleware";
 import orderModel from "@/models/orderModel";
 import { NextResponse } from "next/server";
 
