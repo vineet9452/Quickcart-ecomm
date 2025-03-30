@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import orderModel from "@/models/orderModel";
 import productModel from "@/models/productModel"; // ✅ Product Model जोड़ें
-import { authMiddleware } from "../../../../middlewares/authMiddleware";
+import { authMiddleware } from "@/middlewares/authMiddleware";
 import connectDB from "@/config/connectDB";
 
 export async function GET(req) {
