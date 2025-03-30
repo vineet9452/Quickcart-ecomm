@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,11 +8,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Products = () => {
-  const [products, setProducts] = useState([]); // ✅ सभी Products को Store करें
-  const [pageNumber, setPageNumber] = useState(1); // ✅ पेज नंबर Track करें
-  const [hasMore, setHasMore] = useState(true); // ✅ अगर और प्रोडक्ट्स Available हैं तो True
+  const [products, setProducts] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  // ✅ API से डेटा Fetch करें
   const getAllProducts = async () => {
     try {
       const { data } = await axios.get(
@@ -21,10 +19,10 @@ const Products = () => {
       );
 
       if (data.products.length === 0) {
-        setHasMore(false); // ❌ अगर प्रोडक्ट्स खत्म हो गए तो Load More हटाएँ
+        setHasMore(false);
       } else {
-        setProducts((prev) => [...prev, ...data.products]); // ✅ पुराने Products में नए जोड़ें
-        setPageNumber((prev) => prev + 1); // ✅ पेज नंबर बढ़ाएँ
+        setProducts((prev) => [...prev, ...data.products]);
+        setPageNumber((prev) => prev + 1);
       }
     } catch (error) {
       console.error(error);
@@ -32,139 +30,137 @@ const Products = () => {
     }
   };
 
-  // ✅ पहली बार पेज लोड होने पर Products लाएँ
   useEffect(() => {
     getAllProducts();
   }, []);
 
   return (
     <>
-      <div className="row">
-        <div className="col-md-3">
-          <AdminMenu />
-        </div>
-        <div className="col-md-9">
-          <h1 className="text-center">All Products List</h1>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-3">
+            <AdminMenu />
+          </div>
+          <div className="col-md-9">
+            <h1 className="text-center mb-4">All Products List</h1>
 
-          {/* ✅ Cards Container */}
-          <div className="d-flex flex-wrap justify-content-between">
-            {products.length > 0 ? (
-              products.map((p) => {
-                const isOutOfStock = p.quantity === 0; // ✅ Stock Check
-                const isShippingAvailable = p.shipping && !isOutOfStock; // ✅ अगर Out of Stock है तो Shipping भी नहीं होगी
+            {/* ✅ Cards Container */}
+            <div className="row justify-content-center">
+              {products.length > 0 ? (
+                products.map((p) => {
+                  const isOutOfStock = p.quantity === 0;
+                  const isShippingAvailable = p.shipping && !isOutOfStock;
 
-                return (
-                  <Link
-                    key={p._id}
-                    href={`/dashboard/admin/update-product/${p.slug}`}
-                    className="product-link"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
+                  return (
                     <div
-                      className="card product-card"
-                      style={{
-                        width: "14rem", // ✅ Card Width छोटा किया
-                        cursor: "pointer",
-                        transition: "0.3s",
-                        marginBottom: "20px",
-                      }}
+                      key={p._id}
+                      className="col-md-4 col-sm-6 col-12 mb-4 d-flex justify-content-center"
                     >
-                      <Image
-                        src={`http://localhost:3000/api/products/product-photo/${
-                          p._id
-                        }?t=${new Date().getTime()}`}
-                        alt="Product Image"
-                        width={224} // ✅ Image Width 14rem (224px) के अनुसार सेट किया
-                        height={224}
-                        style={{ objectFit: "contain" }}
-                        unoptimized={true}
-                        priority={true}
-                      />
-                      <div className="card-body text-center">
-                        <h6 className="card-title">{p.name}</h6>
-                        <p className="text-muted" style={{ fontSize: "14px" }}>
-                          Price: ₹{p.price}
-                        </p>
+                      <Link
+                        href={`/dashboard/admin/update-product/${p.slug}`}
+                        className="product-link"
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        <div className="card product-card d-flex flex-column align-items-center">
+                          {/* ✅ Image */}
+                          <div className="image-container">
+                            <Image
+                              src={`${process.env.NEXT_PUBLIC_API_URL}/api/products/product-photo/${p._id}`}
+                              alt="Product Image"
+                              width={224}
+                              height={224}
+                              style={{ objectFit: "contain" }}
+                              unoptimized={true}
+                              priority={true}
+                            />
+                          </div>
 
-                        {/* ✅ Stock Information */}
-                        <p
-                          style={{
-                            fontSize: "13px",
-                            fontWeight: "bold",
-                            color: isOutOfStock ? "red" : "green",
-                          }}
-                        >
-                          {isOutOfStock
-                            ? "Out of Stock"
-                            : `Stock: ${p.quantity}`}
-                        </p>
+                          {/* ✅ Card Body */}
+                          <div className="card-body text-center d-flex flex-column flex-grow-1">
+                            <h6 className="card-title">{p.name}</h6>
+                            <p
+                              className="text-muted"
+                              style={{ fontSize: "14px" }}
+                            >
+                              Price: ₹{p.price}
+                            </p>
 
-                        {/* ✅ Shipping Information */}
-                        <p
-                          style={{
-                            fontSize: "13px",
-                            color: isShippingAvailable ? "blue" : "gray",
-                          }}
-                        >
-                          {isShippingAvailable
-                            ? "🚚 Shipping Available"
-                            : "🚫 No Shipping"}
-                        </p>
+                            {/* ✅ Stock Information */}
+                            <p
+                              style={{
+                                fontSize: "13px",
+                                fontWeight: "bold",
+                                color: isOutOfStock ? "red" : "green",
+                              }}
+                            >
+                              {isOutOfStock
+                                ? "Out of Stock"
+                                : `Stock: ${p.quantity}`}
+                            </p>
 
-                        {/* ✅ "Update Product" बटन */}
-                        <button className="btn btn-warning btn-sm w-100">
-                          ✏️ Update
-                        </button>
-                      </div>
+                            {/* ✅ Shipping Information */}
+                            <p
+                              style={{
+                                fontSize: "13px",
+                                color: isShippingAvailable ? "blue" : "gray",
+                              }}
+                            >
+                              {isShippingAvailable
+                                ? "🚚 Shipping Available"
+                                : "🚫 No Shipping"}
+                            </p>
+
+                            {/* ✅ Button */}
+                            <div className="mt-auto">
+                              <button className="btn btn-warning btn-sm w-100">
+                                ✏️ Update
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
                     </div>
-                  </Link>
-                );
-              })
-            ) : (
-              <p className="text-center w-100">No products available!</p>
+                  );
+                })
+              ) : (
+                <p className="text-center w-100">No products available!</p>
+              )}
+            </div>
+
+            {/* ✅ Load More Button */}
+            {hasMore && (
+              <div className="text-center my-4">
+                <button onClick={getAllProducts} className="btn btn-primary">
+                  Load More
+                </button>
+              </div>
             )}
           </div>
-
-          {/* ✅ Load More Button */}
-          {hasMore && (
-            <div className="text-center my-4">
-              <button onClick={getAllProducts} className="btn btn-primary">
-                Load More
-              </button>
-            </div>
-          )}
         </div>
       </div>
 
       {/* ✅ CSS */}
       <style jsx>{`
+        .product-card {
+          width: 14rem;
+          min-height: 350px; /* ✅ Fix Height for Uniformity */
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+
+        .image-container {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+
         .product-card:hover {
           background-color: #f8f9fa;
           transform: scale(1.03);
-        }
-
-        @media (max-width: 1200px) {
-          .product-card {
-            width: 18%; /* ✅ 5 Cards in a Row */
-          }
-        }
-
-        @media (max-width: 992px) {
-          .product-card {
-            width: 22%; /* ✅ 4 Cards in a Row */
-          }
-        }
-
-        @media (max-width: 768px) {
-          .product-card {
-            width: 30%; /* ✅ 3 Cards in a Row */
-          }
-        }
-
-        @media (max-width: 576px) {
-          .product-card {
-            width: 45%; /* ✅ 2 Cards in a Row */
-          }
         }
       `}</style>
     </>
