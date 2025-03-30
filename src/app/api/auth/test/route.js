@@ -1,4 +1,4 @@
-import { authMiddleware } from "@/middleware/authMiddleware";
+import { authMiddleware } from "../../../../middlewares/authMiddleware";
 import { NextResponse } from "next/server";
 
 // ✅ Protected Test Route
