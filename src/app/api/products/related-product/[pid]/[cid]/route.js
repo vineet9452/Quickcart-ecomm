@@ -1,13 +1,12 @@
-
 import dbConnect from "@/config/connectDB";
 import Product from "@/models/productModel";
 import { NextResponse } from "next/server";
 
-export async function GET(req, { params }) {
+export async function GET(req, context) {
   await dbConnect();
 
   try {
-    const { pid, cid } = params; // ✅ Extract `pid` & `cid`
+    const { pid, cid } = await context.params; // ✅ सही तरीका
 
     if (!pid || !cid) {
       return NextResponse.json(
