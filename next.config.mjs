@@ -1,15 +1,21 @@
 const nextConfig = {
   images: {
-    domains: ["localhost", "127.0.0.1"],
+    domains: ["yourproject.vercel.app", "yourdomain.com", "res.cloudinary.com"], // ✅ अपनी Production Domain डालें
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "3000",
+        protocol: "https",
+        hostname: "yourproject.vercel.app", // ✅ Vercel Domain डालें
         pathname: "/api/products/product-photo/**",
       },
     ],
-    unoptimized: true,
+    unoptimized: false, // ✅ Optimize रखें (Vercel बेहतर Performance देगा)
   },
-  reactStrictMode: false, // ✅ Strict Mode Disable करें
+  reactStrictMode: true, // ✅ Strict Mode Enable करें (Production में अच्छा होता है)
+
+  // ✅ Production Build में console.log() हटाएं
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
 };
+
+export default nextConfig;
