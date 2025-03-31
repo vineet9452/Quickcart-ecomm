@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/Redux/Slices/cartSlices";
 import Image from "next/image";
+import { toast } from "react-hot-toast"; // ✅ Hot Toast Import किया
 
 const ProductDetails = () => {
   const { slug } = useParams();
@@ -45,7 +45,7 @@ const ProductDetails = () => {
 
   const handleAddToCart = (item) => {
     dispatch(addToCart(item));
-    alert(`${item.name} added to cart!`);
+    toast.success(`${item.name} added to cart!`); // ✅ Hot Toast Notification
   };
 
   return (
