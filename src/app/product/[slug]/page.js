@@ -108,14 +108,18 @@ const ProductDetails = () => {
             {relatedProducts.map((p) => (
               <div className="col" key={p._id}>
                 <div className="card shadow-sm border-0 rounded text-center p-3">
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_API_URL}/api/products/product-photo/${p._id}`}
-                    className="card-img-top rounded"
-                    alt={p.name}
-                    width={200}
-                    height={200}
-                    style={{ objectFit: "contain", height: "200px" }}
-                  />
+                    <Image
+                src={`${
+                  process.env.NEXT_PUBLIC_API_URL
+                }/api/products/product-photo/${
+                  product._id
+                }?t=${new Date().getTime()}`} // ✅ Timestamp जोड़ें
+                alt={product.name}
+                width={400}
+                height={400}
+                priority
+                style={{ width: "100%", height: "auto", objectFit: "cover" }}
+              />
                   <div className="card-body">
                     <h6 className="card-title text-dark fw-bold">{p.name}</h6>
                     <p className="text-muted small">
