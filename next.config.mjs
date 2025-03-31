@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "quickcart-ecomm.vercel.app",
+        hostname: "https://quickcart-ecomm.vercel.app",
         pathname: "/api/products/product-photo/**",
       },
     ],
