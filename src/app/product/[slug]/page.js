@@ -104,23 +104,32 @@ const ProductDetails = () => {
         {relatedProducts.length < 1 ? (
           <p className="text-center text-muted">No Similar Products Found</p>
         ) : (
+
           <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
             {relatedProducts.map((p) => (
               <div className="col" key={p._id}>
-                <div className="card shadow-sm border-0 rounded text-center p-3">
-                    <Image
-                src={`${
-                  process.env.NEXT_PUBLIC_API_URL
-                }/api/products/product-photo/${
-                  product._id
-                }?t=${new Date().getTime()}`} // ✅ Timestamp जोड़ें
-                alt={product.name}
-                width={400}
-                height={400}
-                priority
-                style={{ width: "100%", height: "auto", objectFit: "cover" }}
-              />
-                  <div className="card-body">
+                <div
+                  className="card shadow-sm border-0 rounded text-center p-3"
+                  style={{ minHeight: "22rem" }}
+                >
+                  <Image
+                    src={`${
+                      process.env.NEXT_PUBLIC_API_URL
+                    }/api/products/product-photo/${
+                      p._id
+                    }?t=${new Date().getTime()}`}
+                    alt={p.name}
+                    width={150}
+                    height={150}
+                    priority
+                    style={{
+                      width: "100%",
+                      height: "350px",
+                      objectFit: "cover",
+                      borderRadius: "10px",
+                    }}
+                  />
+                  <div className="card-body d-flex flex-column justify-content-between">
                     <h6 className="card-title text-dark fw-bold">{p.name}</h6>
                     <p className="text-muted small">
                       {p.description.substring(0, 30)}...
