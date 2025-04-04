@@ -8,7 +8,7 @@ export async function GET(req, context) {
   await connectDB(); 
 
   try {
-    const params = await context.params;
+    const params = context.params;
     const { slug } = params;
 
     const product = await Product.findOne({ slug })
