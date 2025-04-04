@@ -8,7 +8,7 @@ export async function GET(req, context) {
     await dbConnect();
 
     // ✅ `params` को await करें
-    const { id } = await context.params;
+    const { id } = context.params;
 
     if (!id) {
       console.error("❌ Invalid Product ID:", id);
