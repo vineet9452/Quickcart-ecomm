@@ -6,7 +6,7 @@ export async function GET(req, context) {
   await dbConnect();
 
   try {
-    const { pid, cid } = await context.params; // ✅ सही तरीका
+    const { pid, cid } = context.params; // ✅ सही तरीका
 
     if (!pid || !cid) {
       return NextResponse.json(
