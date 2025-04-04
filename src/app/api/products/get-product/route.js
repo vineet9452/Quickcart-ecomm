@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import productModel from "@/models/productModel";
+import connectDB from "@/config/connectDB";
 
 export async function GET() {
   try {
+     await connectDB(); // ✅ Must-have in serverless environments
     const products = await productModel
       .find({})
       .populate("category")
